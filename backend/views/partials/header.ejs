@@ -14,9 +14,17 @@
 <body class="<%= (page === 'dashboard' || page === 'workspace') ? 'app-body' : '' %> <%= (page === 'workspace') ? 'workspace-layout' : '' %>">
 
 <% if(page === 'home' || page === 'login' || page === 'signup' || page === 'pricing') { %>
+    
+    <!-- ===== VERSION 1: PUBLIC-FACING NAVBAR with NEW SVG LOGO ===== -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="/"><img src="/images/logo.png" alt="AI Research Studio Logo" width="40" height="40"></a>
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <!-- NEW SVG LOGO -->
+                <svg class="navbar-logo me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                    <path d="M12 2L9.5 9.5L2 12L9.5 14.5L12 22L14.5 14.5L22 12L14.5 9.5L12 2Z"/>
+                </svg>
+                <span class="fw-bold">AI Research Studio</span>
+            </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link text-warning fw-bold" href="/app/project/1">DEV: Workspace</a></li>
@@ -29,7 +37,10 @@
             </div>
         </div>
     </nav>
+
 <% } else { %>
+
+    <!-- ===== VERSION 2: FOCUSED WORKSPACE HEADER ===== -->
     <header class="workspace-header fixed-top">
         <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
             <a class="navbar-brand gradient-text fs-4 fw-bold" href="/app/dashboard">AI Research Studio</a>
@@ -40,4 +51,5 @@
             </div>
         </div>
     </header>
+
 <% } %>

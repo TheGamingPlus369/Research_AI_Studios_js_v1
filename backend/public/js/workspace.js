@@ -17,9 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupRateLimitText = document.getElementById('popup-rate-limit-text');
     const rateLimitBar = modelInfoPopup.querySelector('.rate-limit-bar');
     const dropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
+    const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+    const body = document.body;
 
     // === DATA & STATE ===
     const modelsData = {
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         stepperLinks.forEach(link => link.classList.toggle('active', link.dataset.stepId === targetStepId));
         contentPanels.forEach(panel => panel.classList.toggle('d-none', panel.id !== `step-content-${targetStepId}`));
     };
-
     const showModelInfo = (element) => {
         clearTimeout(popupTimeout);
         const modelId = element.dataset.modelId;
@@ -58,9 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         modelInfoPopup.classList.add('show');
     };
-
     const hideModelInfo = () => { popupTimeout = setTimeout(() => modelInfoPopup.classList.remove('show'), 100); };
-
     const sendMessage = () => {
         const messageText = chatInput.value.trim();
         if (messageText === '') return;
@@ -83,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         chatLog.appendChild(aiMessageDiv);
         simulateTyping(aiMessageDiv, fakeResponse);
     };
-
     const simulateTyping = (element, text) => {
         const words = text.split(' '); let i = 0; element.textContent = '';
         chatLog.scrollTop = chatLog.scrollHeight;
@@ -94,6 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // === EVENT LISTENERS ===
+    if (sidebarToggleBtn) {
+        const toggleIcon = sidebarToggleBtn.querySelector('i');
+        sidebarToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('sidebar-collapsed');
+            if (body.classList.contains('sidebar-collapsed')) {
+                toggleIcon.classList.remove('bi-chevron-left');
+                toggleIcon.classList.add('bi-chevron-right');
+            } else {
+                toggleIcon.classList.remove('bi-chevron-right');
+                toggleIcon.classList.add('bi-chevron-left');
+            }
+        });
+    }
     stepperLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); showContentPanel(link.dataset.stepId); }); });
     dropdownItems.forEach(item => {
         item.addEventListener('click', function(e) { e.preventDefault(); selectedModelId = this.dataset.modelId; selectedModelNameSpan.textContent = modelsData[selectedModelId].name; const bsDropdown = bootstrap.Dropdown.getInstance(modelDropdownButton); bsDropdown.hide(); });
@@ -107,15 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
         chatInput.style.height = 'auto';
         chatInput.style.height = `${chatInput.scrollHeight}px`;
     });
-    // Send button and Enter key (CORRECTED)
     sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keydown', (e) => {
-    // This condition now correctly checks for Ctrl+Enter or Cmd+Enter
-        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-            e.preventDefault(); // Prevent new line
-            sendMessage();
-        }
-    });
+    chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendMessage(); } });
 
     // === INITIALIZATION ===
     selectedModelNameSpan.textContent = modelsData[selectedModelId].name;

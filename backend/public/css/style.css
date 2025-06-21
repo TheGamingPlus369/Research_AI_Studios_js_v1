@@ -7,13 +7,13 @@ main { flex-grow: 1; }
 /* --- Dark Mode & Public Page Styles --- */
 [data-bs-theme="dark"] { --bs-body-bg: #121212; --bs-body-color: #e0e0e0; --bs-tertiary-bg: #1e1e1e; }
 [data-bs-theme="dark"] .gradient-text { background-image: linear-gradient(45deg, #a261ff, #00A9FF); }
+.gradient-text { background-image: linear-gradient(45deg, #5c00b8, #0056b3); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-section { padding-top: 60px; padding-bottom: 60px; }
 .hero-image { animation: float 6s ease-in-out infinite; }
-.gradient-text { background-image: linear-gradient(45deg, #5c00b8, #0056b3); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .feature-icon { width: 80px; height: 80px; margin-bottom: 1.5rem; }
 .card-feature { border: none; transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .card-feature:hover { transform: translateY(-10px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; }
-.form-container { display: flex; align-items-center; justify-content: center; min-height: calc(100vh - 56px); }
+.form-container { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 56px); }
 .login-card { width: 100%; max-width: 450px; border: none; border-radius: 1rem; }
 .btn-google { display: flex; align-items: center; justify-content: center; padding-top: 0.75rem; padding-bottom: 0.75rem; }
 .btn-google img { vertical-align: middle; }
@@ -26,60 +26,78 @@ main { flex-grow: 1; }
 .project-card:hover { transform: translateY(-5px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.1)!important; border-color: var(--bs-primary); }
 .empty-state i { opacity: 0.6; }
 .progress-bar-custom { background: linear-gradient(90deg, #00A9FF, #A0E9FF); transition: width 0.5s ease-in-out; }
+.pricing-header { max-width: 700px; }
+.pricing-card-title { font-size: 2.5rem; }
+.list-unstyled li { display: flex; align-items: flex-start; margin-bottom: 0.75rem; }
+.list-unstyled i { font-size: 1.1rem; margin-top: 0.15rem; flex-shrink: 0; }
+.border-primary { transform: scale(1.05); }
+.table { border-top: 1px solid var(--bs-border-color); }
+.table thead th { border-bottom-width: 2px; }
+.table th[scope="row"] { font-weight: 500; }
+.pro-plan-header { color: var(--bs-primary); font-weight: 700; }
 
-/* ===== WORKSPACE LAYOUT (FINAL) ===== */
-body.workspace-layout { display: grid; height: 100vh; grid-template-columns: 260px 1fr; grid-template-rows: 56px 1fr; grid-template-areas: "header header" "sidebar main"; }
+/* ===== WORKSPACE LAYOUT & SIDEBAR REDESIGN ===== */
+body.workspace-layout { display: grid; height: 100vh; grid-template-columns: 260px 1fr; grid-template-rows: 56px 1fr; grid-template-areas: "header header" "sidebar main"; transition: grid-template-columns 0.3s ease-in-out; }
 body.workspace-layout > header { grid-area: header; }
 body.workspace-layout > aside { grid-area: sidebar; }
 body.workspace-layout > main { grid-area: main; }
 .workspace-header { border-bottom: 1px solid var(--bs-border-color); }
-.workspace-sidebar { border-right: 1px solid var(--bs-border-color); background-color: var(--bs-tertiary-bg); overflow-y: auto; }
+.workspace-sidebar { border-right: 1px solid var(--bs-border-color); background-color: var(--bs-tertiary-bg); overflow-y: auto; overflow-x: hidden; }
 .workspace-main { overflow-y: auto; }
 .app-body:not(.workspace-layout) { padding-top: 56px; }
-.stepper-nav .nav-link { color: var(--bs-body-color); transition: background-color 0.2s ease, color 0.2s ease; font-weight: 500; padding: 0.75rem 1rem; margin-bottom: 0.25rem; }
-.stepper-nav .nav-link.active, .stepper-nav .nav-link:hover { background-color: var(--bs-primary-bg-subtle); color: var(--bs-primary-text-emphasis); }
-.stepper-nav .ai-chat-tab { background: linear-gradient(90deg, rgba(138, 43, 226, 0.2), rgba(0, 123, 255, 0.1)); border-left: 3px solid blueviolet; font-weight: 700; color: var(--bs-emphasis-color); }
-.stepper-nav .ai-chat-tab.active, .stepper-nav .ai-chat-tab:hover { background: linear-gradient(90deg, blueviolet, #007bff); color: white; border-left-color: blueviolet; }
-[data-bs-theme="dark"] .stepper-nav .ai-chat-tab { background: linear-gradient(90deg, rgba(138, 43, 226, 0.3), rgba(0, 123, 255, 0.15)); }
 
-/* --- CHAT UI REDESIGN --- */
+/* --- STEPPER NAVIGATION (FINAL VERSION) --- */
+.stepper-nav .nav-link { color: var(--bs-body-color); transition: all 0.2s ease-in-out; font-weight: 500; padding: 0.75rem 1rem; margin-bottom: 0.25rem; white-space: nowrap; border-left: 3px solid transparent; }
+
+/* Standard Tab States */
+.stepper-nav .nav-link:hover:not(.ai-chat-tab) { 
+    background-color: var(--bs-secondary-bg-subtle);
+    color: var(--bs-emphasis-color); 
+    border-left-color: var(--bs-secondary-color);
+}
+.stepper-nav .nav-link.active:not(.ai-chat-tab) { 
+    background-color: var(--bs-primary-bg-subtle); 
+    color: var(--bs-primary-text-emphasis); 
+    font-weight: 700;
+    border-left-color: var(--bs-primary);
+}
+
+/* AI Chat Tab States (FINAL VERSION) */
+.stepper-nav .ai-chat-tab {
+    /* Default (Inactive) State: Standard Blue & Purple Gradient */
+    background: linear-gradient(90deg, #a03cfe, #0048ff); /* BlueViolet to standard Blue */
+    color: white;
+    font-weight: 700;
+    border-left: 3px solid #8A2BE2; /* Purple */
+}
+.stepper-nav .ai-chat-tab:hover {
+    /* Hover State: Brighter Blue & Purple Gradient */
+    background: linear-gradient(90deg, #b465fd, #2f6aff); /* MediumOrchid to a brighter Blue */
+    color: white;
+    border-left-color: #9932CC; /* Lighter Purple */
+}
+.stepper-nav .ai-chat-tab.active {
+    /* Selected State: Darker Blue & Purple Gradient */
+    background: linear-gradient(90deg, #7201dc, #012fa1); /* Indigo to DarkBlue */
+    color: white;
+    border-left-color: #4B0082; /* Indigo */
+}
+
+/* Chat UI & Model Selector Styles */
 #ai-chat-headline { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 150px; margin-bottom: 2rem; text-align: center; }
 .chat-container { overflow-y: auto; display: flex; flex-direction: column; }
 #chat-log { flex-grow: 1; display: flex; flex-direction: column; padding: 0 15px; }
 .ai-message, .user-message { padding: 12px 18px; border-radius: 1.5rem; margin-bottom: 1rem; line-height: 1.5; word-wrap: break-word; width: max-content; max-width: 95%; }
 .ai-message { background-color: transparent; border: none; align-self: flex-start; }
 .user-message { background-color: var(--bs-primary); color: white; align-self: flex-end; }
-
-/* NEW Chat Input Area using Flexbox */
-.chat-input-area { align-items: flex-end; } /* This aligns items to the bottom, creating a clean baseline */
-.chat-input-area #chat-input {
-    flex-grow: 1; /* Allows the textarea to take up all available space */
-    resize: none;
-    overflow-y: auto;
-    max-height: 150px;
-    min-height: 48px; /* Set a minimum height to match the buttons */
-    padding-top: 12px; /* Vertically centers text when in a single line */
-}
-#attach-btn, #send-btn {
-    height: 48px; /* Fixed height for a consistent look */
-    width: 48px;
-    flex-shrink: 0; /* Prevents buttons from shrinking */
-}
-
-/* Custom Scrollbar Styling */
+.chat-input-area { align-items: flex-end; }
+.chat-input-area #chat-input { flex-grow: 1; resize: none; overflow-y: auto; max-height: 150px; min-height: 48px; padding-top: 12px; }
+#attach-btn, #send-btn { height: 48px; width: 48px; flex-shrink: 0; }
 #chat-input::-webkit-scrollbar { width: 8px; }
 #chat-input::-webkit-scrollbar-track { background: transparent; }
 #chat-input::-webkit-scrollbar-thumb { background-color: var(--bs-border-color); border-radius: 10px; }
-
-/* NEW Attachment Dropup Menu */
-.dropup .dropdown-menu {
-    margin-bottom: 0.5rem; /* Space between menu and button */
-}
-.dropdown-item i {
-    font-size: 1.1rem; /* Makes icons in the menu slightly larger */
-}
-
-/* --- Model Selector Popover --- */
+.dropup .dropdown-menu { margin-bottom: 0.5rem; }
+.dropdown-item i { font-size: 1.1rem; }
 .model-selector { position: relative; z-index: 1060; display: flex; justify-content: flex-end; }
 .model-info-popup { position: fixed; width: 380px; background-color: var(--bs-tertiary-bg); border: 1px solid var(--bs-border-color); border-radius: 0.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 1rem; opacity: 0; visibility: hidden; transition: opacity 0.2s ease-out; z-index: 1070; pointer-events: none; }
 .model-info-popup.show { opacity: 1; visibility: visible; pointer-events: auto; }
@@ -88,8 +106,17 @@ body.workspace-layout > main { grid-area: main; }
 .model-info-popup ul li { margin-bottom: 5px; line-height: 1.4; }
 .rate-limit-bar-container { width: 100%; background-color: var(--bs-border-color); border-radius: 0.25rem; height: 8px; overflow: hidden; }
 .rate-limit-bar { height: 100%; background: linear-gradient(90deg, #00A9FF, #A0E9FF); width: 0%; border-radius: 0.25rem; }
+#sidebar-toggle-btn { background-color: transparent; border: none; color: var(--bs-secondary-color); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s ease, transform 0.3s ease; }
+#sidebar-toggle-btn:hover { background-color: rgba(var(--bs-secondary-rgb), 0.1); }
+#sidebar-toggle-btn i { transition: transform 0.3s ease-in-out; }
+body.sidebar-collapsed { grid-template-columns: 80px 1fr; }
+body.sidebar-collapsed .workspace-sidebar #sidebar-title,
+body.sidebar-collapsed .workspace-sidebar .stepper-nav span { opacity: 0; visibility: hidden; width: 0; transition: all 0.1s ease; }
+body.sidebar-collapsed #sidebar-toggle-btn { transform: rotate(180deg); }
+body.sidebar-collapsed .stepper-nav .nav-link { justify-content: center; }
+body.sidebar-collapsed .stepper-nav .nav-link i { margin-right: 0 !important; font-size: 1.5rem; }
 
-/* Animations */
+/* --- Animations --- */
 .fade-in-element { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
 .fade-in-element.is-visible { opacity: 1; transform: translateY(0); }
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
