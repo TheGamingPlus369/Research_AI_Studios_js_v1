@@ -1,0 +1,106 @@
+<%- include('partials/header') %>
+
+<aside class="workspace-sidebar">
+    <div class="p-3">
+        <h6 class="text-muted small text-uppercase mb-3">PROJECT MENU</h6>
+        <ul class="nav nav-pills flex-column stepper-nav">
+             <% steps.forEach((step, index) => { %>
+                <% if(step.id === 'ai') { %>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-flex align-items-center ai-chat-tab active" data-step-id="<%= step.id %>">
+                            <i class="bi <%= step.icon %> me-2"></i>
+                            <span><%= step.name %></span>
+                        </a>
+                    </li>
+                    <li><hr class="my-2"></li>
+                <% } else { %>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link d-flex align-items-center" data-step-id="<%= step.id %>">
+                            <i class="bi <%= step.icon %> me-2"></i>
+                            <span><%= step.name %></span>
+                        </a>
+                    </li>
+                <% } %>
+            <% }); %>
+        </ul>
+    </div>
+</aside>
+
+<main class="workspace-main">
+    <div class="p-4 h-100">
+        <div id="step-content-ai" class="step-content h-100 d-flex flex-column">
+            
+            <!-- THIS IS THE RESTORED SECTION -->
+            <div class="model-selector text-end mb-3">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" id="modelDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="selected-model-name">Gemini 2.5 Flash</span> <i class="bi bi-chevron-down ms-2"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="modelDropdown">
+                        <li><a class="dropdown-item" href="#" data-model-id="gemini-2.5-pro">Gemini 2.5 Pro</a></li>
+                        <li><a class="dropdown-item" href="#" data-model-id="gemini-2.5-flash">Gemini 2.5 Flash</a></li>
+                        <li><a class="dropdown-item" href="#" data-model-id="gemini-2.5-flash-lite-preview">Gemini 2.5 Flash Lite Preview</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="chat-container flex-grow-1 mb-3">
+                <div id="ai-chat-headline" class="text-center">
+                    <h2 class="gradient-text fw-bold">Research AI Assistant</h2>
+                    <p class="lead text-muted mt-2">Start by asking a question about your project.</p>
+                </div>
+                <div id="chat-log" class="p-3"></div>
+            </div>
+
+            <div class="chat-input-area d-flex align-items-end gap-2">
+                <div class="dropup">
+                    <button id="attach-btn" class="btn btn-outline-secondary rounded-3" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Attach files">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-google-drive me-2"></i> My Drive
+                        </a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-upload me-2"></i> Upload File
+                        </a></li>
+                    </ul>
+                </div>
+                <textarea id="chat-input" class="form-control" placeholder="Chat with your AI assistant..." rows="1"></textarea>
+                <button id="send-btn" class="btn btn-primary rounded-3" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Send (Ctrl+Enter)">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </div>
+
+        </div>
+        <!-- Other step content panels -->
+        <div id="step-content-1" class="step-content d-none"><h3><i class="bi bi-lightbulb me-2"></i>Idea Lab</h3></div>
+        <div id="step-content-2" class="step-content d-none"><h3><i class="bi bi-journal-bookmark me-2"></i>Literature Hub</h3></div>
+    </div>
+</main>
+
+<!-- MOVED MODEL INFO POP-UP HERE - To prevent being cut off -->
+<div id="model-info-popup" class="model-info-popup">
+    <h5 class="fw-bold mb-3"><span id="popup-model-name"></span></h5>
+    <div class="row gx-2 mb-3">
+        <div class="col-6">
+            <h6 class="text-primary fw-bold"><i class="bi bi-star-fill me-1"></i>Best For</h6>
+            <ul id="popup-best-for"></ul>
+        </div>
+        <div class="col-6">
+            <h6 class="text-primary fw-bold"><i class="bi bi-person-fill me-1"></i>Use Case</h6>
+            <ul id="popup-use-case"></ul>
+        </div>
+    </div>
+    <h6 class="text-primary fw-bold mb-2"><i class="bi bi-stopwatch-fill me-1"></i>Rate Limits</h6>
+    <div class="d-flex align-items-center mb-1">
+        <small class="text-muted" id="popup-rate-limit-text">-- / -- RPM</small>
+        <div class="rate-limit-bar-container ms-2">
+            <div class="rate-limit-bar" style="width: 0%;"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/workspace.js"></script>

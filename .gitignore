@@ -1,0 +1,12 @@
+# Dependency directories
+node_modules/
+
+# Environment variables - DO NOT COMMIT THIS FILE!
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific folders
+.vscode/
