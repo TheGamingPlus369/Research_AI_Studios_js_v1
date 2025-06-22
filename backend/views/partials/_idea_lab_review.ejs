@@ -2,94 +2,74 @@
 <div id="idea-lab-review-section" class="mt-5 d-none">
     <hr class="my-5">
     
-    <!-- Loading State Overlay -->
     <div id="deep-dive-loader" class="text-center p-5 d-none">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="visually-hidden">Loading...</span></div>
         <h4 class="mt-3">Performing Deep Dive...</h4>
-        <p id="deep-dive-status-text" class="text-muted">Initializing Search...</p>
+        <p id="deep-dive-status-text" class="text-muted">This may take 1-2 minutes as the AI performs multiple analyses.</p>
     </div>
 
     <!-- Report Content (hidden until loaded) -->
     <div id="deep-dive-report" class="d-none">
-        <h2 class="text-center mb-1">Deep Dive Report</h2>
-        <p id="deep-dive-question-title" class="lead text-center text-muted mb-4"></p>
-
-        <!-- Tabs Navigation -->
-        <ul class="nav nav-tabs justify-content-center mb-4" id="reviewTab" role="tablist">
-            <li class="nav-item" role="presentation"><button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-tab-pane" type="button">Overview</button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" id="feasibility-tab" data-bs-toggle="tab" data-bs-target="#feasibility-tab-pane" type="button">Feasibility</button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" id="field-tab" data-bs-toggle="tab" data-bs-target="#field-tab-pane" type="button">State of the Field</button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" id="reading-tab" data-bs-toggle="tab" data-bs-target="#reading-tab-pane" type="button">Reading List</button></li>
-            <li class="nav-item" role="presentation"><button class="nav-link" id="forensics-tab" data-bs-toggle="tab" data-bs-target="#forensics-tab-pane" type="button">Forensics</button></li>
-        </ul>
-
-        <!-- Tabs Content -->
-        <div class="tab-content" id="reviewTabContent">
-            <!-- Tab 1: Overview -->
-            <div class="tab-pane fade show active p-3" id="overview-tab-pane">
-                <div class="row g-4 align-items-center">
-                    <div class="col-lg-6"><h5 class="mb-3">Grounded Synopsis</h5><p id="overview-synopsis"></p><h5 class="mt-4">Identified Research Gap</h5><div class="alert alert-primary"><i class="bi bi-lightbulb-fill me-2"></i><span id="overview-insight"></span></div></div>
-                    <div class="col-lg-6"><h5 class="text-center mb-3">Viability Scorecard</h5><div id="overview-scorecard" class="p-3 rounded bg-body-tertiary"></div></div>
-                </div>
-            </div>
-            <!-- Tab 2: Feasibility -->
-            <div class="tab-pane fade p-3" id="feasibility-tab-pane">
-                <div class="row g-4">
-                    <div class="col-md-7"><h5>Suggested Methodologies</h5><div id="feasibility-methods"></div></div>
-                    <div class="col-md-5"><h5>Potential Requirements</h5><div id="feasibility-requirements"></div></div>
-                </div>
-                <h5 class="mt-4">Potential Challenges</h5><p id="feasibility-challenges" class="text-muted"></p>
-                <h5 class="mt-4">Ethical Considerations</h5><div id="feasibility-ethics" class="alert alert-warning"></div>
-                <h5 class="mt-4">Estimated Timeline</h5><div id="feasibility-timeline" class="alert alert-info"></div>
-            </div>
-            <!-- Other Tabs... -->
-            <div class="tab-pane fade p-3" id="field-tab-pane"><h5>Key Themes & Arguments</h5><ul id="field-themes" class="list-group list-group-flush mb-4"></ul><h5>Key Players & Institutions</h5><div id="field-players"></div></div>
-            <div class="tab-pane fade p-3" id="reading-tab-pane"><div id="reading-list-container"></div></div>
-            <div class="tab-pane fade p-3" id="forensics-tab-pane"><h5>AI Search Queries</h5><p class="text-muted">These are the exact search terms the AI used.</p><div id="forensics-queries" class="mb-4"></div><h5>Full Source List</h5><p class="text-muted">A complete list of web sources consulted.</p><ol id="forensics-sources" class="list-group list-group-numbered"></ol></div>
+        <div class="text-center mb-5">
+            <h2 class="mb-1">Deep Dive Report</h2>
+            <p id="deep-dive-question-title" class="lead text-muted"></p>
         </div>
 
-        <!-- Confirm Topic Button with Padding -->
-        <div class="text-end mt-5 pb-4"><button class="btn btn-success btn-lg" id="confirm-topic-btn" data-bs-toggle="modal" data-bs-target="#confirmTopicModal"><i class="bi bi-check-circle-fill me-2"></i>Confirm This Topic</button></div>
+        <ul class="nav nav-tabs nav-tabs-report justify-content-center mb-4" id="reviewTab" role="tablist">
+            <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview-tab-pane">Overview</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#battleground-tab-pane">Academic Battleground</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#feasibility-tab-pane">Feasibility</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#roadmap-tab-pane">Project Roadmap</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#reading-tab-pane">Reading List</button></li>
+            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#forensics-tab-pane">Forensics</button></li>
+        </ul>
+
+        <div class="tab-content" id="reviewTabContent">
+            <!-- Tab 1: Overview (Layout Fixed) -->
+            <div class="tab-pane fade show active p-lg-4 p-2" id="overview-tab-pane">
+                <!-- Synopsis and Scorecard Row -->
+                <div class="row g-5">
+                    <div class="col-lg-7">
+                        <h5 class="mb-3">Grounded Synopsis</h5>
+                        <p id="overview-synopsis" class="text-muted"></p>
+                        <h5 class="mt-4">Identified Research Gap</h5>
+                        <div class="alert alert-primary"><i class="bi bi-lightbulb-fill me-2"></i><span id="overview-insight"></span></div>
+                    </div>
+                    <div class="col-lg-5">
+                        <h5 class="text-center mb-3">Viability Scorecard</h5>
+                        <div id="overview-scorecard" class="d-flex flex-column gap-3"></div>
+                    </div>
+                </div>
+
+                <!-- **LAYOUT FIX**: Potential Angles section is now outside the row, spanning full width -->
+                <div class="mt-5">
+                    <h5 class="gradient-text fw-bold">Potential Research Angles</h5>
+                    <p class="text-muted small">Unique perspectives to make your research stand out.</p>
+                    <div id="potential-angles-container">
+                        <!-- JS will inject a row and columns here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other tabs are unchanged -->
+            <div class="tab-pane fade p-lg-4 p-2" id="battleground-tab-pane">
+                 <div class="row g-4"><div class="col-lg-6" id="battleground-consensus"></div><div class="col-lg-6" id="battleground-contention"></div></div>
+                 <div class="mt-5" id="battleground-contributors"></div>
+            </div>
+            <div class="tab-pane fade p-lg-4 p-2" id="feasibility-tab-pane">
+                <div class="alert alert-warning"><h4 class="alert-heading"><i class="bi bi-tools me-2"></i>Crucial Requirements</h4><p>These are the key skills, software, or data sources the AI has identified as necessary for this project.</p><hr><div id="feasibility-requirements"></div></div>
+                <div class="row g-4 mt-4"><div class="col-md-7"><h5>Suggested Methodologies</h5><div id="feasibility-methods"></div></div><div class="col-md-5"><h5 class="mt-4 mt-md-0">Ethical Considerations</h5><div id="feasibility-ethics" class="alert alert-secondary"></div></div></div>
+            </div>
+            <div class="tab-pane fade p-lg-4 p-2" id="roadmap-tab-pane"><div class="roadmap-container"></div></div>
+            <div class="tab-pane fade p-lg-4 p-2" id="reading-tab-pane"><div id="reading-list-container"></div></div>
+            <div class="tab-pane fade p-lg-4 p-2" id="forensics-tab-pane"><h5>AI Search Queries</h5><p class="text-muted">These are the exact search terms the AI used.</p><div id="forensics-queries" class="mb-4"></div><h5>Full Source List</h5><p class="text-muted">A complete list of web sources consulted by the AI.</p><ol id="forensics-sources" class="list-group list-group-numbered"></ol></div>
+        </div>
+
+        <div class="text-center mt-5 pb-4"><button class="btn btn-success btn-lg" id="confirm-topic-btn" data-bs-toggle="modal" data-bs-target="#confirmTopicModal"><i class="bi bi-check-circle-fill me-2"></i>Confirm This Topic & Proceed</button></div>
     </div>
 </div>
 
-<!-- Confirmation Modal -->
+<!-- All Modals (Unchanged) -->
 <div class="modal fade" id="confirmTopicModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header border-0"><h1 class="modal-title fs-5">Confirm Research Topic?</h1><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p>You are about to lock in this research question. This will become the central focus of your project.</p><p class="small text-muted">You can change this later, but it may affect your progress in the subsequent research steps.</p></div><div class="modal-footer border-0"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="button" class="btn btn-success" id="final-confirm-btn">Confirm & Proceed</button></div></div></div></div>
-
-<!-- NEW: Change Topic Confirmation Modal -->
-<div class="modal fade" id="changeTopicConfirmModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header border-0 text-warning-emphasis">
-        <h1 class="modal-title fs-5" id="changeTopicConfirmModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Unlock Topic?</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Are you sure you want to change your topic? This will unlock the Idea Lab for brainstorming again.</p>
-        <p class="small text-muted">Your current topic and its report will be saved and shown at the top of the list for easy re-selection.</p>
-      </div>
-      <div class="modal-footer border-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" id="final-change-topic-btn">Yes, Unlock Topic</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- Congratulations Modal -->
-<div class="modal fade" id="congratsModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered text-center">
-    <div class="modal-content">
-      <div class="modal-body p-5">
-        <h2 class="gradient-text mb-3">Topic Confirmed!</h2>
-        <i class="bi bi-rocket-takeoff-fill display-1 text-primary my-3"></i>
-        <p class="lead">Your research journey has begun.</p>
-        <p>Your next step is the <strong class="text-primary">Literature Hub</strong>, where you can start gathering and analyzing sources related to your new topic.</p>
-        <button type="button" class="btn btn-primary btn-lg mt-4" id="go-to-next-step-btn">
-          Go to Literature Hub <i class="bi bi-arrow-right-circle-fill ms-2"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="modal fade" id="changeTopicConfirmModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header border-0 text-warning-emphasis"><h1 class="modal-title fs-5" id="changeTopicConfirmModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Unlock Topic?</h1><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><p>Are you sure you want to change your topic? This will unlock the Idea Lab for brainstorming again.</p><p class="small text-muted">Your current topic and its report will be saved and shown at the top of the list for easy re-selection.</p></div><div class="modal-footer border-0"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button type="button" class="btn btn-danger" id="final-change-topic-btn">Yes, Unlock Topic</button></div></div></div></div>
+<div class="modal fade" id="congratsModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered text-center"><div class="modal-content"><div class="modal-body p-5"><h2 class="gradient-text mb-3">Topic Confirmed!</h2><i class="bi bi-rocket-takeoff-fill display-1 text-primary my-3"></i><p class="lead">Your research journey has begun.</p><p>Your next step is the <strong class="text-primary">Literature Hub</strong>, where you can start gathering and analyzing sources related to your new topic.</p><button type="button" class="btn btn-primary btn-lg mt-4" id="go-to-next-step-btn">Go to Literature Hub <i class="bi bi-arrow-right-circle-fill ms-2"></i></button></div></div></div></div>
