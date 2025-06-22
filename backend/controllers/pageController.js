@@ -22,41 +22,7 @@ exports.renderLogin = (req, res) => {
     });
 };
 
-// Renders the dashboard page
-exports.renderDashboard = (req, res) => {
-    // FAKE DATA for development. We will replace this with a database call.
-    const fakeProjects = [
-        {
-            id: 1,
-            title: "The Impact of Remote Work on Urban Economies",
-            lastModified: "2 days ago",
-            step: 4,
-            totalPages: 6
-        },
-        {
-            id: 2,
-            title: "AI in Predictive Medicine: A Literature Review",
-            lastModified: "5 hours ago",
-            step: 2,
-            totalPages: 6
-        },
-        {
-            id: 3,
-            title: "Quantum Computing's Threat to Cryptography",
-            lastModified: "1 week ago",
-            step: 6,
-            totalPages: 6
-        }
-    ];
-
-    res.render('dashboard', {
-        title: 'Your Projects',
-        projects: fakeProjects,
-        page: 'dashboard'
-    });
-}; // <-- CORRECTED: The renderDashboard function now ends here.
-
-// CORRECTED: The renderSignup function is now a separate, top-level export.
+// Renders the signup page
 exports.renderSignup = (req, res) => {
     res.render('signup', {
         title: 'Sign Up',
@@ -64,10 +30,23 @@ exports.renderSignup = (req, res) => {
     });
 };
 
-exports.renderWorkspace = (req, res) => {
-    const projectId = parseInt(req.params.id, 10); // Get the project ID from the URL
+// Renders the dashboard page
+exports.renderDashboard = (req, res) => {
+    const fakeProjects = [
+        { id: 1, title: "The Impact of Remote Work on Urban Economies", lastModified: "2 days ago", step: 4, totalPages: 6 },
+        { id: 2, title: "AI in Predictive Medicine: A Literature Review", lastModified: "5 hours ago", step: 2, totalPages: 6 },
+        { id: 3, title: "Quantum Computing's Threat to Cryptography", lastModified: "1 week ago", step: 6, totalPages: 6 }
+    ];
+    res.render('dashboard', {
+        title: 'Your Projects',
+        projects: fakeProjects,
+        page: 'dashboard'
+    });
+};
 
-    // FAKE DATABASE: Find the project from our fake data array
+// Renders the main project workspace
+exports.renderWorkspace = (req, res) => {
+    const projectId = parseInt(req.params.id, 10);
     const fakeProjects = [
         { id: 1, title: "The Impact of Remote Work on Urban Economies", step: 1, totalPages: 6 },
         { id: 2, title: "AI in Predictive Medicine: A Literature Review", step: 2, totalPages: 6 },
@@ -76,15 +55,11 @@ exports.renderWorkspace = (req, res) => {
     const project = fakeProjects.find(p => p.id === projectId);
 
     if (!project) {
-        // If no project is found, redirect to the dashboard
         return res.redirect('/app/dashboard');
     }
 
-    // Define the steps of the research process
     const researchSteps = [
-        { id: 'ai', name: 'AI Chat', icon: 'bi-stars' }, // The new tab
-
-        
+        { id: 'ai', name: 'AI Chat', icon: 'bi-stars' },
         { id: 1, name: 'Idea Lab', icon: 'bi-lightbulb' },
         { id: 2, name: 'Literature Hub', icon: 'bi-journal-bookmark' },
         { id: 3, name: 'Methodology', icon: 'bi-diagram-3' },
@@ -97,6 +72,6 @@ exports.renderWorkspace = (req, res) => {
         title: project.title,
         project: project,
         steps: researchSteps,
-        page: 'workspace' // For page-specific JS
+        page: 'workspace'
     });
 };

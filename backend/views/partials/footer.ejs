@@ -1,32 +1,34 @@
-    <footer class="py-5 mt-5 bg-body-tertiary">
-        <div class="container text-center">
-            <p class="mb-1">© <%= new Date().getFullYear() %> AI Research Studio. All Rights Reserved.</p>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Privacy</a></li>
-                <li class="list-inline-item"><a href="#">Terms</a></li>
-                <li class="list-inline-item"><a href="#">Contact</a></li>
-            </ul>
-        </div>
-    </footer>
+<footer class="py-5 mt-5 bg-body-tertiary">
+    <div class="container text-center">
+        <p class="mb-1">© <%= new Date().getFullYear() %> AI Research Studio. All Rights Reserved.</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Contact</a></li>
+        </ul>
+    </div>
+</footer>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Our Custom JS for animations and dark mode (loads on all pages) -->
-    <script src="/js/main.js"></script>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- 
-      Page-Specific JavaScript Loader
-      This block checks the 'page' variable passed from the controller
-      and loads the correct JS file for that specific page.
-    -->
-    <% if (typeof page !== 'undefined') { %>
-        <% if (page === 'dashboard') { %>
-            <script src="/js/dashboard.js"></script>
-        <% } else if (page === 'workspace') { %>
-            <script src="/js/workspace.js"></script>
-        <% } %>
+<!-- Our Custom JS for animations and dark mode (loads on all pages) -->
+<script src="/js/main.js"></script>
+
+<!-- 
+  Page-Specific JavaScript Loader
+  This block checks the 'page' variable passed from the controller
+  and loads the correct JS file(s) for that specific page.
+-->
+<% if (typeof page !== 'undefined') { %>
+    <% if (page === 'dashboard') { %>
+        <script src="/js/dashboard.js"></script>
+    <% } else if (page === 'workspace') { %>
+        <!-- THIS IS THE EDITED SECTION -->
+        <script src="/js/workspace.js"></script>
+        <script src="/js/idea_lab.js"></script>
     <% } %>
+<% } %>
 
 </body>
 </html>

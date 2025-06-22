@@ -1,0 +1,29 @@
+{
+  "projectId": 1,
+  "projectTitle": "The Impact of Remote Work on Urban Economies",
+  "lastModified": "2025-06-22T10:00:00Z",
+  "currentStep": 1,
+  "ideaLab": {
+    "keywords": "",
+    "advancedOptions": {
+      "subject": "Economics",
+      "tone": "Academic",
+      "scope": "Broad"
+    },
+    "generatedIdeas": [],
+    "selectedQuestion": "",
+    "isLocked": false,
+    "review": {
+      "finerAnalysis": "",
+      "suggestedKeywords": [],
+      "potentialMethods": "",
+      "resourceRequirements": "",
+      "ethicalConsiderations": ""
+    }
+  },
+  "literatureHub": {
+    "sources": []
+  },
+  "methodology": {},
+  "writingDesk": {}
+}

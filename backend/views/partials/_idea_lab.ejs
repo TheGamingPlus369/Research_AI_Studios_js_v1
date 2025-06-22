@@ -1,0 +1,83 @@
+<!-- This is the main container for the entire Idea Lab feature -->
+<div id="idea-lab-container">
+
+    <!-- View 1: Generator Interface (Shown by default) -->
+    <div id="idea-lab-generator">
+        <h3 class="mb-3">Idea Lab</h3>
+        <p class="text-muted mb-4">Use the generator to brainstorm and validate research questions before committing.</p>
+
+        <!-- Main Input -->
+        <div class="input-group input-group-lg mb-3">
+            <input type="text" id="idea-keywords-input" class="form-control" placeholder="e.g., 'AGI and future of work'...">
+            <button id="generate-ideas-btn" class="btn btn-primary btn-loader d-flex align-items-center" style="min-width: 170px;">
+                <span class="btn-text">Generate Questions</span>
+            </button>
+        </div>
+
+        <!-- Generation Status Bar (Unchanged) -->
+        <div id="generation-status-bar" class="progress-container mb-4 d-none">
+            <div class="d-flex justify-content-between mb-1">
+                <span id="status-text" class="small fw-bold">Connecting...</span>
+            </div>
+            <div class="progress" style="height: 6px;">
+                <div id="status-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 10%;"></div>
+            </div>
+        </div>
+
+        <!-- Advanced Options Accordion (Unchanged) -->
+        <div class="accordion mb-4" id="advancedOptionsAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAdvanced">Refine with Advanced Options</button></h2>
+                <div id="collapseAdvanced" class="accordion-collapse collapse" data-bs-parent="#advancedOptionsAccordion">
+                    <div class="accordion-body">
+                         <div class="row g-4">
+                            <div class="col-md-6 col-lg-3"><label for="subject-select" class="form-label">Primary Subject</label><select id="subject-select" class="form-select"><option>Any</option><option>Technology</option><option>Sociology</option><option>Economics</option><option>Philosophy</option><option>History</option><option>Political Science</option><option>Biology</option></select></div>
+                            <div class="col-md-6 col-lg-3"><label for="time-commitment-select" class="form-label">Time Commitment</label><select id="time-commitment-select" class="form-select"><option>Any</option><option>Weekend Project (1-3 Days)</option><option>Term Paper (1-4 Weeks)</option><option selected>Deep Research (1-4 Months)</option><option>Thesis/Dissertation (6+ Months)</option></select></div>
+                            <div class="col-md-6 col-lg-3"><label for="output-format-select" class="form-label">Desired Output Format</label><select id="output-format-select" class="form-select"><option>Academic Paper</option><option>Blog Post / Article</option><option>Presentation Outline</option><option>Grant Proposal</option></select></div>
+                            <div class="col-md-6 col-lg-3"><label for="tone-select" class="form-label">Tone</label><select id="tone-select" class="form-select"><option>Formal & Academic</option><option>Critical & Analytical</option><option>Speculative & Imaginative</option><option>Objective & Neutral</option></select></div>
+                            <div class="col-lg-6"><label for="research-scope-select" class="form-label">Research Scope</label><select id="research-scope-select" class="form-select"><option>Literature Review</option><option>Case Study</option><option>Experimental Research</option><option>Theoretical Framework</option></select></div>
+                            <div class="col-lg-6"><label for="skills-input" class="form-label">Required Skills (Optional)</label><input type="text" id="skills-input" class="form-control" placeholder="e.g., Python, statistical analysis, lab techniques"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Container for Generated Idea Cards -->
+        <div id="idea-cards-container" class="mb-4"></div>
+        
+        <!-- Common Action Buttons with Padding Fix -->
+        <div id="idea-actions" class="d-flex justify-content-end gap-2 d-none pb-4">
+            <button id="generate-more-btn" class="btn btn-outline-secondary btn-lg btn-loader">
+                <span class="btn-text">Generate More</span>
+            </button>
+            <button id="deep-dive-btn" class="btn btn-primary btn-lg" disabled>
+                <i class="bi bi-search-heart me-2"></i>Deep Dive & Validate
+            </button>
+        </div>
+    </div>
+
+    <!-- View 2: Redesigned Locked Topic State -->
+    <div id="idea-lab-locked-state" class="d-none">
+        <div class="p-5 rounded-4" style="background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-secondary-rgb), 0.1)); border: 1px solid rgba(var(--bs-primary-rgb), 0.2);">
+            <div class="text-center">
+                <i class="bi bi-pin-angle-fill display-1 gradient-text"></i>
+                <h2 class="mt-3 fw-bold">Your Topic is Locked In!</h2>
+                <p class="text-muted">This is the central focus of your project. All subsequent steps will be based on this question.</p>
+            </div>
+            <div class="card shadow-sm mt-4">
+                 <div class="card-body">
+                    <p id="locked-topic-question" class="fw-bold mb-0"></p>
+                 </div>
+            </div>
+            <div class="mt-4 text-center">
+                <button class="btn btn-primary" id="view-locked-report-btn">
+                    <i class="bi bi-file-text-fill me-2"></i>View Full Report
+                </button>
+                <button class="btn btn-outline-danger ms-2" id="change-topic-btn">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Unlock & Change Topic
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
