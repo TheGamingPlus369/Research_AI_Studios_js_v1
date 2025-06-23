@@ -1,0 +1,79 @@
+<div class="modal fade" id="sourceReportModal" tabindex="-1" aria-labelledby="sourceReportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <div>
+                    <h1 class="modal-title fs-5 gradient-text" id="sourceReportModalLabel">Source Analysis Report</h1>
+                    <p class="mb-0 text-muted small" id="sourceReportFileName"></p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-5">
+                    <!-- Left Column: Scorecard & Details -->
+                    <div class="col-lg-4">
+                        <h5 class="mb-3">Source Scorecard</h5>
+                        <div id="report-scorecard" class="d-flex flex-column gap-3 mb-4">
+                            <!-- Scorecard items injected by JS -->
+                        </div>
+                        
+                        <h5 class="mt-4 mb-3">Methodology</h5>
+                        <div id="report-methodology">
+                            <!-- Methodology injected by JS -->
+                        </div>
+                        
+                        <h5 class="mt-4 mb-3">Target Audience</h5>
+                        <div id="report-audience" class="alert alert-secondary py-2 px-3">
+                           <!-- Audience injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Main Analysis Tabs -->
+                    <div class="col-lg-8">
+                        <ul class="nav nav-tabs nav-tabs-report mb-4" id="sourceReportTab" role="tablist">
+                            <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#summary-pane" type="button">Synopsis</button></li>
+                            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#quotes-pane" type="button">Quotes & Insights</button></li>
+                            <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#critique-pane" type="button">Critical Analysis</button></li>
+                        </ul>
+                        <div class="tab-content" id="sourceReportTabContent">
+                            <div class="tab-pane fade show active" id="summary-pane" role="tabpanel">
+                                <h6>AI Summary</h6>
+                                <p id="report-summary" class="text-muted"></p>
+                                
+                                <h6 class="mt-4">Author's Main Thesis</h6>
+                                <div class="alert alert-primary">
+                                    <i class="bi bi-chat-left-quote-fill me-2"></i>
+                                    <span id="report-thesis"></span>
+                                </div>
+                                
+                                <h6 class="mt-4">Academic Context</h6>
+                                <p id="report-context" class="text-muted"></p>
+                            </div>
+                            <div class="tab-pane fade" id="quotes-pane" role="tabpanel">
+                                <h6><i class="bi bi-quote me-2"></i>Direct Quotes Relevant to Your Topic</h6>
+                                <div id="report-direct-quotes">
+                                    <!-- Direct quotes will be injected here by JS -->
+                                </div>
+                            </div>
+                             <div class="tab-pane fade" id="critique-pane" role="tabpanel">
+                                <h6>Key Arguments & Findings</h6>
+                                <div id="report-key-arguments"></div>
+                                
+                                <h6 class="mt-4">Evidence Used</h6>
+                                <div id="report-evidence" class="mb-4"></div>
+
+                                <h6>Potential Limitations & Biases</h6>
+                                <div class="alert alert-warning">
+                                    <p id="report-limitations" class="mb-0"></p>
+                                </div>
+                                
+                                <h6 class="mt-4">Key Definitions</h6>
+                                <div id="report-key-definitions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

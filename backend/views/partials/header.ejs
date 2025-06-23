@@ -15,20 +15,16 @@
 
 <% if(page === 'home' || page === 'login' || page === 'signup' || page === 'pricing') { %>
     
-    <!-- ===== VERSION 1: PUBLIC-FACING NAVBAR with NEW SVG LOGO ===== -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <!-- NEW SVG LOGO -->
-                <svg class="navbar-logo me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
-                    <path d="M12 2L9.5 9.5L2 12L9.5 14.5L12 22L14.5 14.5L22 12L14.5 9.5L12 2Z"/>
-                </svg>
+                <svg class="navbar-logo me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"><path d="M12 2L9.5 9.5L2 12L9.5 14.5L12 22L14.5 14.5L22 12L14.5 9.5L12 2Z"/></svg>
                 <span class="fw-bold">AI Research Studio</span>
             </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link text-warning fw-bold" href="/app/project/1">DEV: Workspace</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#features">Features</a></li>
                     <li class="nav-item"><a class="nav-link" href="/pricing">Pricing</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                     <li class="nav-item"><a class="btn btn-primary ms-lg-2" href="/signup">Sign Up for Free</a></li>
@@ -40,13 +36,13 @@
 
 <% } else { %>
 
-    <!-- ===== VERSION 2: FOCUSED WORKSPACE HEADER ===== -->
     <header class="workspace-header fixed-top">
         <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
             <a class="navbar-brand gradient-text fs-4 fw-bold" href="/app/dashboard">AI Research Studio</a>
             <div class="d-flex align-items-center">
-                <a class="nav-link me-3" href="/">Home</a>
+                <button class="btn btn-warning btn-sm me-3" id="dev-set-topic-btn" title="Instantly lock in the test topic from _test_data.js"><i class="bi bi-robot me-1"></i> DEV: Set Test Topic</button>
                 <a class="nav-link text-warning fw-bold me-3" href="/app/project/1">DEV: Workspace</a>
+                <a class="nav-link me-3" href="/">Home</a>
                 <button class="btn" id="darkModeToggle"><i class="bi bi-moon-stars-fill"></i></button>
             </div>
         </div>

@@ -1,63 +1,42 @@
+// This function is now declared globally so other scripts can call it.
+function showContentPanel(targetStepId) {
+    const stepperLinks = document.querySelectorAll('.stepper-nav .nav-link');
+    const contentPanels = document.querySelectorAll('.step-content');
+
+    stepperLinks.forEach(link => {
+        link.classList.toggle('active', link.dataset.stepId === targetStepId);
+    });
+    contentPanels.forEach(panel => {
+        // This correctly toggles visibility for all panels.
+        panel.classList.toggle('d-none', panel.id !== `step-content-${targetStepId}`);
+    });
+};
+
+
 document.addEventListener('DOMContentLoaded', () => {
     // === SELECTORS ===
     const chatInput = document.getElementById('chat-input');
-    if (!chatInput) return;
-
     const stepperLinks = document.querySelectorAll('.stepper-nav .nav-link');
-    const contentPanels = document.querySelectorAll('.step-content');
     const sendBtn = document.getElementById('send-btn');
     const chatLog = document.getElementById('chat-log');
     const chatHeadline = document.getElementById('ai-chat-headline');
     const modelDropdownButton = document.getElementById('modelDropdown');
     const selectedModelNameSpan = document.getElementById('selected-model-name');
-    const modelInfoPopup = document.getElementById('model-info-popup');
-    const popupModelName = document.getElementById('popup-model-name');
-    const popupBestFor = document.getElementById('popup-best-for');
-    const popupUseCase = document.getElementById('popup-use-case');
-    const popupRateLimitText = document.getElementById('popup-rate-limit-text');
-    const rateLimitBar = modelInfoPopup.querySelector('.rate-limit-bar');
-    const dropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
     const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
     const body = document.body;
 
     // === DATA & STATE ===
     const modelsData = {
-        'gemini-2.5-pro': { name: 'Gemini 2.5 Pro', bestFor: ['Coding', 'Reasoning', 'Multimodal understanding'], useCase: ['Reason over complex problems', 'Tackle difficult code, math and STEM problems', 'Use the long context for analyzing large datasets'], rateLimit: { total: 150, unit: 'RPM', current: 50, freeTier: null } },
-        'gemini-2.5-flash': { name: 'Gemini 2.5 Flash', bestFor: ['Large scale processing', 'Low latency, high volume tasks', 'Agentic use cases'], useCase: ['Reason over complex problems', 'Show the thinking process', 'Call tools natively'], rateLimit: { total: 1000, unit: 'RPM', current: 250, freeTier: { value: 10, unit: 'RPM', daily: 500 } } },
-        'gemini-2.5-flash-lite-preview': { name: 'Gemini 2.5 Flash Lite Preview', bestFor: ['Large scale processing', 'Low latency, high volume tasks', 'Lower cost'], useCase: ['Data transformation', 'Translation', 'Summarization'], rateLimit: { total: 4000, unit: 'RPM', current: 1000, freeTier: { value: 15, unit: 'RPM', daily: 500 } } }
+        'gemini-1.5-pro-latest': { name: 'Gemini 1.5 Pro' },
+        'gemini-1.5-flash-latest': { name: 'Gemini 1.5 Flash' },
     };
-    let selectedModelId = 'gemini-2.5-flash';
-    let popupTimeout;
+    let selectedModelId = 'gemini-1.5-flash-latest'; // Default model
 
     // === FUNCTIONS ===
-    const showContentPanel = (targetStepId) => {
-        stepperLinks.forEach(link => link.classList.toggle('active', link.dataset.stepId === targetStepId));
-        contentPanels.forEach(panel => panel.classList.toggle('d-none', panel.id !== `step-content-${targetStepId}`));
-    };
-    const showModelInfo = (element) => {
-        clearTimeout(popupTimeout);
-        const modelId = element.dataset.modelId;
-        if (!modelId) return;
-        const model = modelsData[modelId];
-        if (!model) return;
-        popupModelName.textContent = model.name;
-        const populateList = (ul, items) => { ul.innerHTML = ''; items.forEach(item => { const li = document.createElement('li'); li.textContent = item; ul.appendChild(li); }); };
-        populateList(popupBestFor, model.bestFor);
-        populateList(popupUseCase, model.useCase);
-        const { current, total, unit, freeTier } = model.rateLimit;
-        const percentageUsed = (current / total) * 100;
-        popupRateLimitText.innerHTML = `${current} / ${total} ${unit}${freeTier ? ` (Free: ${freeTier.value} ${freeTier.unit})` : ''}`;
-        rateLimitBar.style.width = `${percentageUsed}%`;
-        const dropdownMenu = element.closest('.dropdown-menu');
-        if (dropdownMenu) {
-            const menuRect = dropdownMenu.getBoundingClientRect();
-            modelInfoPopup.style.left = `${menuRect.left - modelInfoPopup.offsetWidth - 15}px`;
-            modelInfoPopup.style.top = `${menuRect.top}px`;
-        }
-        modelInfoPopup.classList.add('show');
-    };
-    const hideModelInfo = () => { popupTimeout = setTimeout(() => modelInfoPopup.classList.remove('show'), 100); };
+    
     const sendMessage = () => {
+        // This function requires the chatInput to exist.
+        if (!chatInput) return; 
         const messageText = chatInput.value.trim();
         if (messageText === '') return;
         if (chatHeadline && !chatHeadline.classList.contains('d-none')) {
@@ -79,13 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
         chatLog.appendChild(aiMessageDiv);
         simulateTyping(aiMessageDiv, fakeResponse);
     };
+
     const simulateTyping = (element, text) => {
         const words = text.split(' '); let i = 0; element.textContent = '';
         chatLog.scrollTop = chatLog.scrollHeight;
         const typingInterval = setInterval(() => {
             if (i < words.length) { element.textContent += words[i] + ' '; chatLog.scrollTop = chatLog.scrollHeight; i++; } 
             else { clearInterval(typingInterval); }
-        }, 200);
+        }, 50);
     };
 
     // === EVENT LISTENERS ===
@@ -102,23 +82,49 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    stepperLinks.forEach(link => { link.addEventListener('click', (e) => { e.preventDefault(); showContentPanel(link.dataset.stepId); }); });
-    dropdownItems.forEach(item => {
-        item.addEventListener('click', function(e) { e.preventDefault(); selectedModelId = this.dataset.modelId; selectedModelNameSpan.textContent = modelsData[selectedModelId].name; const bsDropdown = bootstrap.Dropdown.getInstance(modelDropdownButton); bsDropdown.hide(); });
-        item.addEventListener('mouseover', function() { showModelInfo(this); });
-        item.addEventListener('mouseout', hideModelInfo);
+
+    stepperLinks.forEach(link => { 
+        link.addEventListener('click', (e) => { 
+            e.preventDefault(); 
+            // The click event on the link now calls the global function
+            showContentPanel(link.dataset.stepId); 
+        }); 
     });
-    modelInfoPopup.addEventListener('mouseover', () => clearTimeout(popupTimeout));
-    modelInfoPopup.addEventListener('mouseout', hideModelInfo);
     
-    chatInput.addEventListener('input', () => {
-        chatInput.style.height = 'auto';
-        chatInput.style.height = `${chatInput.scrollHeight}px`;
-    });
-    sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); sendMessage(); } });
+    if (modelDropdownButton) {
+        const dropdownItems = modelDropdownButton.parentElement.querySelectorAll('.dropdown-menu .dropdown-item');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) { 
+                e.preventDefault(); 
+                selectedModelId = this.dataset.modelId; 
+                if(selectedModelNameSpan) {
+                    selectedModelNameSpan.textContent = modelsData[selectedModelId].name;
+                }
+                const bsDropdown = bootstrap.Dropdown.getInstance(modelDropdownButton); 
+                if (bsDropdown) bsDropdown.hide();
+            });
+        });
+    }
+    
+    // Only add listeners if chat input exists
+    if (chatInput) {
+        chatInput.addEventListener('input', () => {
+            chatInput.style.height = 'auto';
+            chatInput.style.height = `${chatInput.scrollHeight}px`;
+        });
+        if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keydown', (e) => { 
+            if (e.key === 'Enter' && !e.shiftKey) { 
+                e.preventDefault(); 
+                sendMessage(); 
+            } 
+        });
+    }
 
     // === INITIALIZATION ===
-    selectedModelNameSpan.textContent = modelsData[selectedModelId].name;
-    showContentPanel('ai');
+    if (selectedModelNameSpan && modelsData[selectedModelId]) {
+        selectedModelNameSpan.textContent = modelsData[selectedModelId].name;
+    }
+    // Set the initial active tab. Let's default to the Idea Lab (step 1).
+    showContentPanel('1'); 
 });
