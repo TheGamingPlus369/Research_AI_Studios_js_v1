@@ -241,3 +241,31 @@ body.sidebar-collapsed .stepper-nav .nav-link i { margin-right: 0 !important; fo
     border-top: 1px solid var(--bs-border-color);
     padding-top: 0.75rem;
 }
+
+/* ===== FINAL UI BUG FIXES ===== */
+
+/* FIX 1: Prevent horizontal scrolling in the report modal */
+/* ===== FINAL UI BUG FIXES ===== */
+
+/* FIX: Prevent horizontal scrolling in the report modal */
+#sourceReportModal .modal-body {
+    overflow-x: hidden;
+}
+
+/* FIX: Stabilize the loading status on source cards */
+.source-card-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* NEW: Styles for the non-drifting overlay loader */
+.idea-lab-content-wrapper {
+    position: relative;
+}
+.content-faded {
+    opacity: 0.2;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
