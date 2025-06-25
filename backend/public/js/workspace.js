@@ -83,12 +83,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    stepperLinks.forEach(link => { 
-        link.addEventListener('click', (e) => { 
-            e.preventDefault(); 
-            // The click event on the link now calls the global function
-            showContentPanel(link.dataset.stepId); 
-        }); 
+     stepperLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetStepId = link.dataset.stepId;
+
+            // THIS IS THE CRITICAL NEW LOGIC
+            // Check if the topic is locked globally AND the user is trying to view the Idea Lab (step 1).
+            if (window.isTopicLocked && targetStepId === '1') {
+                // The topic is locked, so instead of showing the generator,
+                // we ensure the 'locked view' is visible and the generator is hidden.
+                const generatorView = document.getElementById('idea-lab-generator');
+                const lockedView = document.getElementById('idea-lab-locked-state');
+                const reviewSection = document.getElementById('idea-lab-review-section');
+
+                if (generatorView && lockedView && reviewSection) {
+                    generatorView.classList.add('d-none');
+                    lockedView.classList.remove('d-none');
+                    reviewSection.classList.add('d-none'); // Also hide the report section
+                }
+            }
+            // END OF NEW LOGIC
+
+            // This function handles switching the main content panels.
+            showContentPanel(targetStepId);
+        });
     });
     
     if (modelDropdownButton) {

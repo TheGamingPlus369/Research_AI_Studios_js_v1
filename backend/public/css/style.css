@@ -75,6 +75,10 @@ body.sidebar-collapsed .stepper-nav .nav-link i { margin-right: 0 !important; fo
 @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
 /* Button Loader Animation */
+.btn-loader {
+    position: relative;
+}
+
 .btn-loader.loading .btn-text {
     visibility: hidden;
     opacity: 0;
@@ -152,8 +156,10 @@ body.sidebar-collapsed .stepper-nav .nav-link i { margin-right: 0 !important; fo
 .source-card-details { overflow: hidden; }
 .source-card-title { margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .source-card-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.8rem; }
-.source-card-status { background-color: var(--bs-tertiary-bg); text-align: center; font-size: 0.875rem; padding: 0.5rem; }
-
+.source-card-actions {
+    margin-left: auto; /* This is the key to push it to the right */
+    flex-shrink: 0;
+}
 /* Report Modal */
 .modal-content { border: none; border-radius: .75rem; background-color: var(--bs-body-bg); }
 .modal-xl { --bs-modal-width: 90%; max-width: 1200px; }
@@ -240,4 +246,134 @@ body.sidebar-collapsed .stepper-nav .nav-link i { margin-right: 0 !important; fo
     margin-top: 0.75rem;
     border-top: 1px solid var(--bs-border-color);
     padding-top: 0.75rem;
+}
+
+/* ===== SHIMMER LOADER SKELETON ===== */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-wrapper {
+  background-color: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: .75rem;
+  padding: 2rem;
+}
+
+.skeleton {
+  background-color: var(--bs-secondary-bg);
+  border-radius: .25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.2) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 2s infinite;
+  content: '';
+}
+
+[data-bs-theme="dark"] .skeleton::after {
+    background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.15) 60%,
+    rgba(255, 255, 255, 0)
+  );
+}
+
+.skeleton-title { width: 40%; height: 2.25rem; margin: 0 auto 1.5rem auto; }
+.skeleton-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+.skeleton-tab { width: 100px; height: 2rem; }
+.skeleton-text { width: 100%; height: 1rem; margin-bottom: 0.75rem; }
+.skeleton-text-short { width: 60%; }
+.skeleton-box { width: 100%; height: 100px; }
+
+
+.idea-card .card-body {
+    position: relative; /* Needed for absolute positioning of the button */
+    padding-right: 120px; /* Make space for the button on the right */
+}
+
+.idea-card-actions {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.loader-text-animated {
+    font-size: 1.5rem; /* Or h4 equivalent */
+    font-weight: 500;
+    background: linear-gradient(90deg, var(--bs-primary), var(--bs-info), var(--bs-primary));
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-text-flow 3.5s linear infinite;
+}
+
+@keyframes gradient-text-flow {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.report-list-item {
+    background-color: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color);
+    padding: 1rem;
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+}
+.report-list-item:hover {
+    border-color: var(--bs-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0, .05);
+}
+[data-bs-theme="dark"] .report-list-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0, .15);
+}
+
+.report-list-item-title {
+    font-weight: 600;
+    color: var(--bs-emphasis-color);
+    text-decoration: none;
+}
+.report-list-item-title:hover {
+    color: var(--bs-primary);
+}
+
+.report-list-item-source {
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--bs-secondary-color);
+    margin-top: .25rem;
+    display: block; /* Ensures it takes up its own line */
+}
+
+.report-list-item-url { /* New class for forensics */
+    font-size: .8rem;
+    color: var(--bs-secondary-color);
+    word-break: break-all; /* Prevents overflow */
+    text-decoration: none;
+}
+.report-list-item-url:hover {
+    color: var(--bs-primary);
 }

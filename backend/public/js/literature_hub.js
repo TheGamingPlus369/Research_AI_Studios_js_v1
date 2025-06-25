@@ -53,26 +53,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- UI Rendering Functions ---
     // FIX: Added fixed width/height and onerror to prevent icon flicker/disappearance
     const createSourceCardHTML = (id, fileName, fileSize, sourceIdentifier) => {
-        const fileExtension = 'pdf'; // We treat all as PDFs now for consistency
-        const iconPath = `/images/icons/pdf.png`;
-        const formattedSize = fileSize > 1024 ? `${(fileSize / (1024 * 1024)).toFixed(2)} MB` : `${(fileSize / 1024).toFixed(0)} KB`;
-        return `<div class="col" id="source-card-${id}" data-source-identifier="${sourceIdentifier}"><div class="card source-card h-100"><div class="card-body"><div class="source-card-icon"><img src="${iconPath}" alt="PDF icon" width="40" height="40" onerror="this.onerror=null;this.src='/images/icons/default.png';"></div><div class="source-card-details"><h6 class="source-card-title">${fileName}</h6><div class="source-card-meta"><span class="badge bg-secondary-subtle text-secondary-emphasis">PDF</span>${fileSize > 0 ? `<span class="badge bg-secondary-subtle text-secondary-emphasis">${formattedSize}</span>` : ''}</div></div></div><div class="card-footer source-card-status"><div class="spinner-border spinner-border-sm me-2" role="status"></div><span>Generating analysis...</span></div></div></div>`;
+    const fileExtension = 'pdf'; // We treat all as PDFs now for consistency
+    const iconPath = `/images/icons/pdf.png`;
+    const formattedSize = fileSize > 0 && fileSize > 1024 ? `${(fileSize / (1024 * 1024)).toFixed(2)} MB` : (fileSize > 0 ? `${(fileSize / 1024).toFixed(0)} KB` : '');
+
+    // The card-body is now a flex container. The actions div is where the button will go.
+    return `
+        <div class="col" id="source-card-${id}" data-source-identifier="${sourceIdentifier}">
+            <div class="card source-card h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="source-card-icon">
+                        <img src="${iconPath}" alt="PDF icon" width="40" height="40" onerror="this.onerror=null;this.src='/images/icons/default.png';">
+                    </div>
+                    <div class="source-card-details">
+                        <h6 class="source-card-title">${fileName}</h6>
+                        <div class="source-card-meta">
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis">PDF</span>
+                            ${formattedSize ? `<span class="badge bg-secondary-subtle text-secondary-emphasis">${formattedSize}</span>` : ''}
+                        </div>
+                    </div>
+                    <!-- This div is the key change. 'ms-auto' pushes it right. -->
+                    <div class="source-card-actions">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
     };
+
 
     const updateCardWithAnalysis = (id, analysis) => {
         const card = document.getElementById(`source-card-${id}`);
         if (!card) return;
         sourceDataCache[id] = analysis;
-        const footer = card.querySelector('.source-card-status');
-        footer.innerHTML = `<button class="btn btn-primary btn-sm w-100 view-report-btn" data-source-id="${id}">View Analysis</button>`;
+
+        // Target the new actions container specifically.
+        const actionsContainer = card.querySelector('.source-card-actions');
+        if(actionsContainer) {
+            actionsContainer.innerHTML = `<button class="btn btn-primary btn-sm view-report-btn" data-source-id="${id}">View Report</button>`;
+        }
     };
-    
+
     const updateCardWithError = (id, message) => {
         const card = document.getElementById(`source-card-${id}`);
         if (!card) return;
-        const footer = card.querySelector('.source-card-status');
-        footer.innerHTML = `<span class="text-danger small"><i class="bi bi-exclamation-triangle-fill me-1"></i> ${message}</span>`;
-        footer.classList.add('bg-danger-subtle');
+        
+        // Also update the actions container for errors.
+        const actionsContainer = card.querySelector('.source-card-actions');
+        if(actionsContainer) {
+        actionsContainer.innerHTML = `<span class="text-danger small" title="${message}"><i class="bi bi-exclamation-triangle-fill"></i> Error</span>`;
+        }
     };
 
     const populateSourceReportModal = (analysisData, cardTitle) => {

@@ -10,7 +10,7 @@
         <div class="input-group input-group-lg mb-3">
             <input type="text" id="idea-keywords-input" class="form-control" placeholder="e.g., 'AGI and future of work'...">
             <button id="generate-ideas-btn" class="btn btn-primary btn-loader d-flex align-items-center" style="min-width: 170px;">
-                <span class="btn-text">Generate Questions</span>
+                <span class="btn-text">Generate Ideas
             </button>
         </div>
 
@@ -31,7 +31,7 @@
                 <div id="collapseAdvanced" class="accordion-collapse collapse" data-bs-parent="#advancedOptionsAccordion">
                     <div class="accordion-body">
                          <div class="row g-4">
-                            <div class="col-md-6 col-lg-3"><label for="subject-select" class="form-label">Primary Subject</label><select id="subject-select" class="form-select"><option>Any</option><option>Technology</option><option>Sociology</option><option>Economics</option><option>Philosophy</option><option>History</option><option>Political Science</option><option>Biology</option></select></div>
+                            <div class="col-md-6 col-lg-3"><label for="subject-select" class="form-label">Primary Subject</label><select id="subject-select" class="form-select"> <option>Any</option> <option>Computer Science</option> <option>Medicine & Health</option> <option>Economics</option> <option>Sociology</option> <option>Psychology</option> <option>Political Science</option> <option>Environmental Science</option> <option>Physics</option> <option>Biology</option> <option>History</option> <option>Philosophy</option> <option>Arts & Humanities</option> </select></div>
                             <div class="col-md-6 col-lg-3"><label for="time-commitment-select" class="form-label">Time Commitment</label><select id="time-commitment-select" class="form-select"><option>Any</option><option>Weekend Project (1-3 Days)</option><option>Term Paper (1-4 Weeks)</option><option selected>Deep Research (1-4 Months)</option><option>Thesis/Dissertation (6+ Months)</option></select></div>
                             <div class="col-md-6 col-lg-3"><label for="output-format-select" class="form-label">Desired Output Format</label><select id="output-format-select" class="form-select"><option>Academic Paper</option><option>Blog Post / Article</option><option>Presentation Outline</option><option>Grant Proposal</option></select></div>
                             <div class="col-md-6 col-lg-3"><label for="tone-select" class="form-label">Tone</label><select id="tone-select" class="form-select"><option>Formal & Academic</option><option>Critical & Analytical</option><option>Speculative & Imaginative</option><option>Objective & Neutral</option></select></div>
@@ -43,6 +43,20 @@
             </div>
         </div>
 
+        <div id="previous-topic-container" class="d-none">
+            <div class="d-flex align-items-center gap-3 my-4">
+                <h6 class="text-muted mb-0">PREVIOUS TOPIC</h6>
+                <hr class="flex-grow-1">
+            </div>
+            <div id="previous-topic-card-wrapper">
+                <!-- The previous topic card will be injected here by JS -->
+            </div>
+            <div class="d-flex align-items-center gap-3 my-4">
+                <h6 class="text-muted mb-0">NEW IDEAS</h6>
+                <hr class="flex-grow-1">
+            </div>
+        </div>
+
         <!-- Container for Generated Idea Cards -->
         <div id="idea-cards-container" class="mb-4"></div>
         
@@ -51,8 +65,10 @@
             <button id="generate-more-btn" class="btn btn-outline-secondary btn-lg btn-loader">
                 <span class="btn-text">Generate More</span>
             </button>
-            <button id="deep-dive-btn" class="btn btn-primary btn-lg" disabled>
-                <i class="bi bi-search-heart me-2"></i>Deep Dive & Validate
+            <button id="deep-dive-btn" class="btn btn-primary btn-lg btn-loader" disabled>
+                <span class="btn-text">
+                    <i class="bi bi-search-heart me-2"></i>Deep Dive & Validate
+                </span>
             </button>
         </div>
     </div>
