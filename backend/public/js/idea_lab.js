@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const skillsInput = document.getElementById('skills-input');
     const outputFormatSelect = document.getElementById('output-format-select');
     const toneSelect = document.getElementById('tone-select');
-
-    // Dev Button Selector
     const devSetTopicBtn = document.getElementById('dev-set-topic-btn');
 
     // === GLOBAL STATE ===
@@ -48,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("--- DEV BUTTON: Setting test topic ---");
         devSetTopicBtn.disabled = true;
         devSetTopicBtn.innerHTML = `<i class="bi bi-check-lg me-1"></i> Topic Set!`;
-
         if (typeof testIdeaLabReport !== 'undefined') {
             window.lockedTopicData = testIdeaLabReport;
             window.isTopicLocked = true;
@@ -58,18 +55,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.dispatchEvent(new CustomEvent('topicUpdated', {
                 detail: { isTopicLocked: true, lockedTopicData: window.lockedTopicData }
             }));
-            
             showLockedView();
         } else {
             const msg = "Test data 'testIdeaLabReport' not found. Make sure _test_data.js is loaded.";
             console.error(msg);
             alert(msg);
         }
-
         setTimeout(() => {
             devSetTopicBtn.disabled = false;
             devSetTopicBtn.innerHTML = `<i class="bi bi-robot me-1"></i> DEV: Set Test Topic`;
         }, 1500);
+        
     };
 
     // --- WORKFLOW & VIEW MANAGEMENT ---
@@ -218,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // === EVENT LISTENERS ===
+    // --- EVENT LISTENERS ---
     if (devSetTopicBtn) devSetTopicBtn.addEventListener('click', loadTestData);
     generateIdeasBtn.addEventListener('click', () => generateIdeas(false));
     generateMoreBtn.addEventListener('click', () => generateIdeas(true));
