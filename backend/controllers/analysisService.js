@@ -12,7 +12,7 @@ const analyzeSourceText = async (text, projectQuestion) => {
     const analysisSchema = {
         type: "OBJECT",
         properties: {
-            summary: { type: "STRING", description: "A concise, 3-4 sentence summary of the source's main content." },
+            summary: { type: "STRING", description: "A very brief, one-sentence summary (5-15 words) of the source's main content, suitable for a card preview." },
             authorThesis: { type: "STRING", description: "A single sentence that clearly states the author's central argument or main thesis." },
             academicContext: { type: "STRING", description: "A paragraph explaining how this source contributes to the broader academic field. Does it support, refute, or extend existing theories? Mention the key conversation it's a part of." },
             keyArguments: { type: "ARRAY", items: {type: "STRING"}, description: "A list of the 3-5 most important supporting arguments or findings from the text."},
@@ -48,7 +48,9 @@ const analyzeSourceText = async (text, projectQuestion) => {
     };
 
     const prompt = `
-        You are a PhD-level research analyst. Your task is to perform a deep, critical analysis of the following source text, specifically in the context of a larger research project. Your output must be academically rigorous.
+        You are a PhD-level research analyst. Your task is to perform a deep, critical analysis of the following source text in the context of a larger research project.
+
+        **CRITICAL INSTRUCTION:** If the provided text is a security check page (e.g., contains "Just a moment...", "Checking your browser...", "DDoS protection"), you MUST treat it as empty. For any field in the JSON schema where you cannot find a specific answer in the source text, you MUST explicitly state "Information not available in the source text." Do not leave any fields blank or null.
 
         --- MAIN PROJECT RESEARCH QUESTION ---
         ${projectQuestion}
@@ -59,9 +61,9 @@ const analyzeSourceText = async (text, projectQuestion) => {
         ----------------------------------------------
 
         Based *only* on the provided source text, generate a structured analysis. Be critical and objective.
-        - For 'directQuotes', you MUST find verbatim quotes that are highly relevant to the project question and analyze their significance.
-        - For 'scorecard', you MUST provide a score AND a concise justification for each item. The 'relevance' score is the most important.
-        - For 'academicContext', think like a literature review expert.
+        - **directQuotes**: You MUST find verbatim quotes highly relevant to the project question. If none, the array should contain an object stating so.
+        - **scorecard**: You MUST provide a score (1-10) AND a concise justification for each item.
+        - **academicContext**: Think like a literature review expert.
         
         Your entire output must be a single, valid JSON object that conforms to the required schema. Do not include any markdown like \`\`\`json.
     `;

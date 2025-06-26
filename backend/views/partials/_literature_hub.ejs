@@ -1,39 +1,46 @@
 <div id="literature-hub-container">
-    <!-- HEADER WITH NEW BUTTON -->
-    <div class="d-flex justify-content-between align-items-center mb-1">
-        <div>
-            <h3 class="mb-0">Literature Hub</h3>
-            <p class="text-muted mb-0">Upload sources, scrape articles, and build your project's knowledge base.</p>
-        </div>
-        <button class="btn btn-primary btn-lg gradient-button" id="open-source-finder-btn">
-            <i class="bi bi-magic me-2"></i> AI Source Finder
-        </button>
-    </div>
-    <p class="text-muted mb-4 small">The AI will analyze each source in the context of your confirmed research topic.</p>
+    <!-- This div will be populated with an info message by JS if no topic is locked -->
+    <div id="hub-info-message-container"></div>
 
-    <!-- Upload Area -->
-    <div class="upload-area mb-5">
-        <div class="row g-4">
-            <!-- URL Scraper -->
-            <div class="col-lg-5">
-                <div class="url-upload-container">
-                    <h6><i class="bi bi-link-45deg me-2"></i>Scrape Article from URL</h6>
-                    <p class="small text-muted">Paste a link to a web article, and the system will convert it to a PDF source.</p>
-                    <div class="input-group">
-                        <input type="url" id="url-input" class="form-control" placeholder="https://...">
-                        <button class="btn btn-primary" id="scrape-url-btn">Scrape</button>
+    <!-- This div will be disabled by JS if no topic is locked -->
+    <div id="hub-main-controls">
+        <!-- HEADER WITH NEW BUTTON -->
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <div>
+                <h3 class="mb-0">Literature Hub</h3>
+                <p class="text-muted mb-0">Upload sources, scrape articles, and build your project's knowledge base.</p>
+            </div>
+            <button class="btn btn-primary btn-lg gradient-button" id="open-source-finder-btn">
+                <i class="bi bi-magic me-2"></i> AI Source Finder
+            </button>
+        </div>
+        <p class="text-muted mb-4 small">The AI will analyze each source in the context of your confirmed research topic.</p>
+
+        <!-- Upload Area -->
+        <div class="upload-area mb-5">
+            <div class="row g-4">
+                <!-- URL Scraper -->
+                <div class="col-lg-5">
+                    <div class="url-upload-container">
+                        <h6><i class="bi bi-link-45deg me-2"></i>Scrape Article from URL</h6>
+                        <p class="small text-muted">Paste a link to a web article, and the system will convert it to a PDF source.</p>
+                        <div class="input-group">
+                            <input type="url" id="url-input" class="form-control" placeholder="https://...">
+                            <button class="btn btn-primary" id="scrape-url-btn">Scrape</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Drag & Drop Uploader -->
-            <div class="col-lg-7">
-                <div id="drop-zone" class="drop-zone-container">
-                    <div class="drop-zone-prompt">
-                        <i class="bi bi-cloud-arrow-up-fill"></i>
-                        <p class="mb-0"><strong>Drag & Drop PDF files here</strong></p>
-                        <p class="small text-muted mb-2">or</p>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="document.getElementById('file-input').click()">Browse Files</button>
-                        <input type="file" id="file-input" accept=".pdf" multiple style="display: none;">
+                <!-- Drag & Drop Uploader -->
+                <div class="col-lg-7">
+                    <div id="drop-zone" class="drop-zone-container">
+                        <div class="drop-zone-prompt">
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+                            <p class="mb-0"><strong>Drag & Drop files here</strong></p>
+                            <p class="small text-muted mb-2">or</p>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="document.getElementById('file-input').click()">Browse Files</button>
+                            <!-- Updated to accept multiple file types -->
+                            <input type="file" id="file-input" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt" multiple style="display: none;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,7 +49,29 @@
 
     <!-- Sources Dashboard -->
     <div class="sources-dashboard">
-        <h4 class="mb-3">Your Sources</h4>
+        <!-- THIS IS THE NEWLY ADDED SECTION -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">Your Sources</h4>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-filter me-1"></i> Filter
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><h6 class="dropdown-header">By Type</h6></li>
+                    <li><a class="dropdown-item" href="#" data-filter-type="type" data-filter-value="all">All Types</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter-type="type" data-filter-value="PDF">PDF</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter-type="type" data-filter-value="DOCX">DOCX</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter-type="type" data-filter-value="PPTX">PPTX</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><h6 class="dropdown-header">By Size</h6></li>
+                    <li><a class="dropdown-item" href="#" data-filter-type="size" data-filter-value="all">Any Size</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter-type="size" data-filter-value="large">Large (> 1MB)</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter-type="size" data-filter-value="small">Small (< 1MB)</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- END OF NEWLY ADDED SECTION -->
+
         <div id="sources-container" class="sources-grid-container">
             <!-- Source cards will be injected here by JS -->
             <div class="empty-sources-placeholder text-center">
@@ -52,4 +81,24 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="duplicateSourceModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-5"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>Duplicate Source Detected</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>A source with the name "<strong id="duplicateFileName"></strong>" already exists in your hub.</p>
+        <p>What would you like to do?</p>
+      </div>
+      <div class="modal-footer flex-column align-items-stretch gap-2">
+        <button type="button" class="btn btn-primary" id="duplicate-action-update">Update Existing Source</button>
+        <button type="button" class="btn btn-secondary" id="duplicate-action-keep-both">Keep Both (Rename New)</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>
